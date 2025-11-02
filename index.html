@@ -241,11 +241,11 @@
             
             // ĐÁP ÁN
             const correctAnswers = {
-                q1: 'b', // avocation (sở thích, thú vui)
-                q2: 'a', // Cleft sentence (made = past)
-                q3: 'false', // T/F (Nó dùng cho an toàn, không chỉ thẩm mỹ)
-                q4: 'b', // Reading (bị thay thế bởi nhà hiện đại)
-                q5: 'b', // Image (thích nghi với địa lý)
+                q1: 'b', 
+                q2: 'a', 
+                q3: 'false', 
+                q4: 'b',
+                q5: 'b',
                 ans6: 'There are many picturesque stilt houses in this communal village.',
                 ans7: 'The more polluted the city becomes, the more idyllic the countryside becomes.',
                 ans8: 'She loathes doing sedentary activities.',
@@ -258,86 +258,55 @@
                 return str.trim().toLowerCase().replace(/\.$/, ''); // Bỏ cách, chữ hoa, dấu chấm cuối
             }
 
-            // Xóa feedback cũ
-            clearAllFeedback();
-
-            // Mảng chứa các hàm kiểm tra cho từng câu
-            const checks = [
-                () => checkMCQ('q1', correctAnswers.q1, 1),
-                () => checkMCQ('q2', correctAnswers.q2, 2),
-                () => checkMCQ('q3', correctAnswers.q3, 3), // True/False
-                () => checkMCQ('q4', correctAnswers.q4, 4),
-                () => checkMCQ('q5', correctAnswers.q5, 5),
-                () => checkText('ans6', correctAnswers.ans6, 6),
-                () => checkText('ans7', correctAnswers.ans7, 7),
-                () => checkText('ans8', correctAnswers.ans8, 8),
-                () => checkText('ans9', correctAnswers.ans9, 9),
-                () => checkText('ans10', correctAnswers.ans10, 10)
-            ];
-
-            // Lặp qua và chấm điểm
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i]()) {
-                    score++;
-                }
-            }
-
-            // --- Hàm kiểm tra con ---
-            function checkMCQ(questionName, correctAnswer, qNum) {
-                const selectedOption = document.querySelector('input[name="' + questionName + '"]:checked');
-                
-                if (selectedOption) {
-                    if (selectedOption.value === correctAnswer) {
-                        addFeedback(qNum, 'correct');
-                        return true;
-                    } else {
-                        addFeedback(qNum, 'incorrect', 'Đáp án đúng: ' + correctAnswer);
-                        return false;
-                    }
-                } else {
-                    addFeedback(qNum, 'incorrect', 'Bạn chưa chọn. Đáp án đúng: ' + correctAnswer);
-                    return false;
-                }
+            // Xóa feedback cũ và chuẩn bị
+            for (let i = 1; i <= totalQuestions; i++) {
+                const group = document.getElementById('q-group-' + i);
+                const answerDisplay = document.getElementById('ca' + i);
+                if (group) group.classList.remove('correct', 'incorrect');
+                if (answerDisplay) answerDisplay.innerText = '';
             }
             
-            function checkText(inputId, correctAnswer, qNum) {
-                const userAnswer = document.getElementById(inputId).value;
-                
-                if (normalize(userAnswer) === normalize(correctAnswer)) {
-                    addFeedback(qNum, 'correct');
-                    return true;
-                } else {
-                    addFeedback(qNum, 'incorrect', 'Đáp án đúng: ' + correctAnswer);
-                    return false;
-                }
-            }
-
-            // --- Hàm hiển thị/xóa feedback ---
-            function addFeedback(qNum, status, answerText = '') {
+            // --- HÀM KIỂM TRA TỪNG LOẠI CÂU HỎI ---
+            
+            // Chấm điểm cho MCQs (Q1 đến Q5)
+            for (let i = 1; i <= 5; i++) {
+                const qNum = i;
+                const questionName = 'q' + qNum;
+                const correctAnswer = correctAnswers[questionName];
+                const selectedOption = document.querySelector('input[name="' + questionName + '"]:checked');
                 const group = document.getElementById('q-group-' + qNum);
                 const answerDisplay = document.getElementById('ca' + qNum);
-                
-                group.classList.add(status);
-                
-                if (status === 'incorrect' && answerText) {
-                    answerDisplay.innerText = answerText;
+
+                if (selectedOption && selectedOption.value === correctAnswer) {
+                    score++;
+                    group.classList.add('correct');
+                } else {
+                    group.classList.add('incorrect');
+                    answerDisplay.innerText = 'Đáp án đúng: ' + (correctAnswer === 'true' ? 'True' : correctAnswer === 'false' ? 'False' : correctAnswer.toUpperCase());
                 }
             }
 
-            function clearAllFeedback() {
-                for (let i = 1; i <= totalQuestions; i++) {
-                    const group = document.getElementById('q-group-'s + i);
-                    const answerDisplay = document.getElementById('ca' + i);
-                    if (group) {
-                        group.classList.remove('correct', 'incorrect');
-                    }
-                    if (answerDisplay) {
-                        answerDisplay.innerText = '';
-                    }
-                }
-            }
+            // Chấm điểm cho Writing (Q6 đến Q10)
+            const writingQs = [6, 7, 8, 9, 10];
+            writingQs.forEach(qNum => {
+                const inputId = 'ans' + qNum;
+                const correctAnswerKey = inputId;
+                const correctAnswer = correctAnswers[correctAnswerKey];
+                const userAnswer = document.getElementById(inputId).value;
 
-            // Hiển thị kết quả cuối cùng
+                const group = document.getElementById('q-group-' + qNum);
+                const answerDisplay = document.getElementById('ca' + qNum);
+
+                if (normalize(userAnswer) === normalize(correctAnswer)) {
+                    score++;
+                    group.classList.add('correct');
+                } else {
+                    group.classList.add('incorrect');
+                    answerDisplay.innerText = 'Đáp án đúng: ' + correctAnswer;
+                }
+            });
+
+            // --- HIỂN THỊ KẾT QUẢ CUỐI CÙNG ---
             const resultDisplay = document.getElementById('final-result');
             resultDisplay.innerHTML = `<h2>Kết quả của bạn: ${score} / ${totalQuestions}</h2>`;
             

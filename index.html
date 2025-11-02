@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 8 - Advanced Integrated Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+        header {
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #007bff;
+            margin: 0;
+            font-size: 2.2em;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #555;
+            font-weight: 500;
+        }
+        .section-title {
+            color: #d9534f;
+            font-size: 1.6em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .question-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s;
+        }
+        .question-group.correct {
+            border-left: 5px solid #28a745;
+            background-color: #f0fff4;
+        }
+        .question-group.incorrect {
+            border-left: 5px solid #dc3545;
+            background-color: #fff6f6;
+        }
+        .question-group p {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-top: 0;
+        }
+        .mcq-option {
+            display: block;
+            margin: 8px 0 8px 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .reading-passage, .image-section {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .reading-passage p {
+            font-weight: 400;
+            font-style: italic;
+        }
+        .test-image {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto 15px auto;
+        }
+        input[type="text"] {
+            width: 95%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .final-result-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            display: none; /* Ẩn ban đầu */
+        }
+        .correct-answer-display {
+            font-weight: bold;
+            color: #1967d2;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Bài kiểm tra Nâng cao Tổng hợp</h1>
+            <p>Tiếng Anh Lớp 8 - Chân trời sáng tạo (Units 1-3)</p>
+        </header>
+
+        <form id="testForm">
+            <h2 class="section-title">I. Multiple Choice (ABCD)</h2>
+            
+            <div class="question-group" id="q-group-1">
+                <p>1. (Vocabulary) While his main job is a doctor, his ______ is painting, which he pursues passionately on weekends.</p>
+                <label class="mcq-option"><input type="radio" name="q1" value="a"> vocation</label>
+                <label class="mcq-option"><input type="radio" name="q1" value="b"> avocation</label>
+                <label class="mcq-option"><input type="radio" name="q1" value="c"> tranquility</label>
+                <label class="mcq-option"><input type="radio" name="q1" value="d"> ethnicity</label>
+                <div class="correct-answer-display" id="ca1"></div>
+            </div>
+            
+            <div class="question-group" id="q-group-2">
+                <p>2. (Grammar) ______ his meticulous craftsmanship that made his DIY projects stand out.</p>
+                <label class="mcq-option"><input type="radio" name="q2" value="a"> It was</label>
+                <label class="mcq-option"><input type="radio" name="q2" value="b"> It is</label>
+                <label class="mcq-option"><input type="radio" name="q2" value="c"> That was</label>
+                <label class="mcq-option"><input type="radio" name="q2" value="d"> There was</label>
+                <div class="correct-answer-display" id="ca2"></div>
+            </div>
+
+            <h2 class="section-title">II. Reading, True/False & Image</h2>
+            
+            <div class="reading-passage">
+                <p>The 54 ethnic groups in Vietnam create a rich cultural tapestry. While the Viet (Kinh) people are the majority, the other 53 groups, often inhabiting mountainous regions, maintain unique customs. A significant aspect of their culture is the stilt house, a traditional dwelling raised on poles. This architectural style is not just for aesthetics; it provides safety from floods and wild animals and offers a communal living space. However, as modernization spreads, the tradition of building stilt houses is facing challenges, with many younger generations opting for modern, concrete homes.</p>
+            </div>
+            
+            <div class="question-group" id="q-group-3">
+                <p>3. (True/False) According to the passage, the stilt house is popular mainly for its beautiful aesthetics.</p>
+                <label class="mcq-option"><input type="radio" name="q3" value="true"> True</label>
+                <label class="mcq-option"><input type="radio" name="q3" value="false"> False</label>
+                <div class="correct-answer-display" id="ca3"></div>
+            </div>
+
+            <div class="question-group" id="q-group-4">
+                <p>4. (Reading) What is the main challenge mentioned regarding stilt houses?</p>
+                <label class="mcq-option"><input type="radio" name="q4" value="a"> They are too difficult to build.</label>
+                <label class="mcq-option"><input type="radio" name="q4" value="b"> They are being replaced by modern homes.</label>
+                <label class="mcq-option"><input type="radio" name="q4" value="c"> They are not safe from wild animals anymore.</label>
+                <label class="mcq-option"><input type="radio" name="q4" value="d"> They do not provide communal living spaces.</label>
+                <div class="correct-answer-display" id="ca4"></div>
+            </div>
+
+            <div class="image-section">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Rice_Terraces_2.jpg/1280px-Rice_Terraces_2.jpg" alt="Ruộng bậc thang" class="test-image">
+            </div>
+            <div class="question-group" id="q-group-5">
+                <p>5. (Image) This image shows "terraced fields" (ruộng bậc thang). This farming method is a prime example of:</p>
+                <label class="mcq-option"><input type="radio" name="q5" value="a"> A sedentary lifestyle in the city.</label>
+                <label class="mcq-option"><input type="radio" name="q5" value="b"> How ethnic groups adapt to highland geography.</label>
+                <label class="mcq-option"><input type="radio" name="q5"value="c"> A leisure activity for tourists.</label>
+                <label class="mcq-option"><input type="radio" name="q5" value="d"> A modern, industrial farming technique.</label>
+                <div class="correct-answer-display" id="ca5"></div>
+            </div>
+
+            <h2 class="section-title">III. Writing (Viết lại câu)</h2>
+            
+            <div class="question-group" id="q-group-6">
+                <p>6. (Error Correction) Find and correct ONE mistake: <br><i>There are much picturesque stilt houses in this communal village.</i></A>
+                <input type="text" id="ans6" placeholder="Viết lại CẢ CÂU đúng...">
+                <div class="correct-answer-display" id="ca6"></div>
+            </div>
+            
+            <div class="question-group" id="q-group-7">
+                <p>7. (Sentence Transformation) Rewrite the sentence:<br><i>As the city becomes more polluted, the countryside becomes more idyllic.</i></p>
+                <input type="text" id="ans7" placeholder="Bắt đầu bằng: The more polluted...">
+                <div class="correct-answer-display" id="ca7"></div>
+            </div>
+            
+            <div class="question-group" id="q-group-8">
+                <p>8. (Sentence Transformation) She finds it extremely unpleasant to do sedentary activities. (<b>loathes</b>)</p>
+                <input type="text" id="ans8" placeholder="Viết lại câu dùng 'loathes'...">
+                <div class="correct-answer-display" id="ca8"></div>
+            </div>
+
+            <div class="question-group" id="q-group-9">
+                <p>9. (Sentence Transformation) People say that he is a connoisseur of ethnic costumes. (<b>He is...</b>)</p>
+                <input type="text" id="ans9" placeholder="Viết lại câu dùng Bị động tường thuật...">
+                <div class="correct-answer-display" id="ca9"></div>
+            </div>
+            
+            <div class="question-group" id="q-group-10">
+                <p>10. (Sentence Transformation) The villagers started weaving the fabric. Then the festival began. (<b>By the time...</b>)</p>
+                <input type="text" id="ans10" placeholder="Viết lại câu dùng Quá khứ hoàn thành...">
+                <div class="correct-answer-display" id="ca10"></div>
+            </div>
+
+            <button type="button" class="submit-button" onclick="calculateScore()">Nộp bài và Chấm điểm</button>
+            
+            <div id="final-result" class="final-result-box"></div>
+
+        </form>
+    </div>
+
+    <script>
+        function calculateScore() {
+            let score = 0;
+            const totalQuestions = 10;
+            
+            // ĐÁP ÁN
+            const correctAnswers = {
+                q1: 'b', // avocation (sở thích, thú vui)
+                q2: 'a', // Cleft sentence (made = past)
+                q3: 'false', // T/F (Nó dùng cho an toàn, không chỉ thẩm mỹ)
+                q4: 'b', // Reading (bị thay thế bởi nhà hiện đại)
+                q5: 'b', // Image (thích nghi với địa lý)
+                ans6: 'There are many picturesque stilt houses in this communal village.',
+                ans7: 'The more polluted the city becomes, the more idyllic the countryside becomes.',
+                ans8: 'She loathes doing sedentary activities.',
+                ans9: 'He is said to be a connoisseur of ethnic costumes.',
+                ans10: 'By the time the festival began, the villagers had started weaving the fabric.'
+            };
+
+            // Hàm chuẩn hóa câu trả lời viết
+            function normalize(str) {
+                return str.trim().toLowerCase().replace(/\.$/, ''); // Bỏ cách, chữ hoa, dấu chấm cuối
+            }
+
+            // Xóa feedback cũ
+            clearAllFeedback();
+
+            // Mảng chứa các hàm kiểm tra cho từng câu
+            const checks = [
+                () => checkMCQ('q1', correctAnswers.q1, 1),
+                () => checkMCQ('q2', correctAnswers.q2, 2),
+                () => checkMCQ('q3', correctAnswers.q3, 3), // True/False
+                () => checkMCQ('q4', correctAnswers.q4, 4),
+                () => checkMCQ('q5', correctAnswers.q5, 5),
+                () => checkText('ans6', correctAnswers.ans6, 6),
+                () => checkText('ans7', correctAnswers.ans7, 7),
+                () => checkText('ans8', correctAnswers.ans8, 8),
+                () => checkText('ans9', correctAnswers.ans9, 9),
+                () => checkText('ans10', correctAnswers.ans10, 10)
+            ];
+
+            // Lặp qua và chấm điểm
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i]()) {
+                    score++;
+                }
+            }
+
+            // --- Hàm kiểm tra con ---
+            function checkMCQ(questionName, correctAnswer, qNum) {
+                const selectedOption = document.querySelector('input[name="' + questionName + '"]:checked');
+                
+                if (selectedOption) {
+                    if (selectedOption.value === correctAnswer) {
+                        addFeedback(qNum, 'correct');
+                        return true;
+                    } else {
+                        addFeedback(qNum, 'incorrect', 'Đáp án đúng: ' + correctAnswer);
+                        return false;
+                    }
+                } else {
+                    addFeedback(qNum, 'incorrect', 'Bạn chưa chọn. Đáp án đúng: ' + correctAnswer);
+                    return false;
+                }
+            }
+            
+            function checkText(inputId, correctAnswer, qNum) {
+                const userAnswer = document.getElementById(inputId).value;
+                
+                if (normalize(userAnswer) === normalize(correctAnswer)) {
+                    addFeedback(qNum, 'correct');
+                    return true;
+                } else {
+                    addFeedback(qNum, 'incorrect', 'Đáp án đúng: ' + correctAnswer);
+                    return false;
+                }
+            }
+
+            // --- Hàm hiển thị/xóa feedback ---
+            function addFeedback(qNum, status, answerText = '') {
+                const group = document.getElementById('q-group-' + qNum);
+                const answerDisplay = document.getElementById('ca' + qNum);
+                
+                group.classList.add(status);
+                
+                if (status === 'incorrect' && answerText) {
+                    answerDisplay.innerText = answerText;
+                }
+            }
+
+            function clearAllFeedback() {
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const group = document.getElementById('q-group-'s + i);
+                    const answerDisplay = document.getElementById('ca' + i);
+                    if (group) {
+                        group.classList.remove('correct', 'incorrect');
+                    }
+                    if (answerDisplay) {
+                        answerDisplay.innerText = '';
+                    }
+                }
+            }
+
+            // Hiển thị kết quả cuối cùng
+            const resultDisplay = document.getElementById('final-result');
+            resultDisplay.innerHTML = `<h2>Kết quả của bạn: ${score} / ${totalQuestions}</h2>`;
+            
+            if (score < 5) {
+                resultDisplay.style.backgroundColor = '#fdecea';
+                resultDisplay.style.color = '#5a1e22';
+            } else if (score < 8) {
+                resultDisplay.style.backgroundColor = '#fffbeb';
+                resultDisplay.style.color = '#664d03';
+            } else {
+                resultDisplay.style.backgroundColor = '#e6f7ec';
+                resultDisplay.style.color = '#1e462d';
+            }
+            
+            resultDisplay.style.display = 'block';
+            resultDisplay.scrollIntoView({ behavior: 'smooth' }); // Cuộn xuống kết quả
+        }
+    </script>
+
+</body>
+</html>
